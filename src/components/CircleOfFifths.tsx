@@ -41,14 +41,13 @@ export function CircleOfFifths({ selectedKey, onSelectKey }: CircleOfFifthsProps
       .text('Circle of Fifths');
 
     // Draw the circle segments
-    // Start angle offset to position C at top dead center (12 o'clock)
-    // -π/2 moves from 3 o'clock to 12 o'clock, -π/12 offsets by half a segment width
-    const startAngle = -Math.PI / 2 - Math.PI / 12;
+    // Offset start angle to center C at 12 o'clock (top dead center)
+    // -π/2 positions the start at 12 o'clock, -π/12 shifts back by half a segment to center C
     const pie = d3.pie<Note>()
       .value(() => 1)
       .sort(null)
-      .startAngle(startAngle)
-      .endAngle(startAngle + 2 * Math.PI);
+      .startAngle(-Math.PI / 2 - Math.PI / 12)
+      .endAngle(-Math.PI / 2 - Math.PI / 12 + 2 * Math.PI);
 
     const arc = d3.arc<d3.PieArcDatum<Note>>()
       .innerRadius(innerRadius)
