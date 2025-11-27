@@ -1,0 +1,22 @@
+{
+  "name": "scalar",
+  "version": "1.0.0",
+  "description": "Mandolin fretboard scale visualizer",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["mandolin", "music", "scales", "fretboard"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@preact/preset-vite": "^2.10.2",
+    "@types/d3": "^7.4.3",
+    "d3": "^7.9.0",
+    "preact": "^10.27.2",
+    "typescript": "^6.0.0-dev.20251127",
+    "vite": "^7.2.4"
+  }
+}
