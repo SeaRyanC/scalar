@@ -41,9 +41,14 @@ export function CircleOfFifths({ selectedKey, onSelectKey }: CircleOfFifthsProps
       .text('Circle of Fifths');
 
     // Draw the circle segments
+    // Rotate so C is centered at top dead center (12 o'clock)
+    // Offset by half a segment (-π/12) to center C at top
+    const halfSegment = -Math.PI / 12;
     const pie = d3.pie<Note>()
       .value(() => 1)
-      .sort(null);
+      .sort(null)
+      .startAngle(halfSegment)
+      .endAngle(2 * Math.PI + halfSegment);
 
     const arc = d3.arc<d3.PieArcDatum<Note>>()
       .innerRadius(innerRadius)
