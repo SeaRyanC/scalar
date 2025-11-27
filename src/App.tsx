@@ -1,23 +1,50 @@
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import { Note, ScaleType, Orientation, AppState } from './types';
 import { CircleOfFifths } from './components/CircleOfFifths';
 import { Fretboard } from './components/Fretboard';
 import { Controls } from './components/Controls';
 
-const initialState: AppState = {
+const STORAGE_KEY = 'scalar-user-settings';
+
+const defaultState: AppState = {
   key: 'C',
   scale: 'major',
   orientation: 'horizontal',
   showNoteNames: true,
 };
 
+function loadState(): AppState {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return { ...defaultState, ...parsed };
+    }
+  } catch {
+    // If parsing fails, return default state
+  }
+  return defaultState;
+}
+
+function saveState(state: AppState): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    // Silently fail if localStorage is unavailable
+  }
+}
+
 export function App() {
-  const [state, setState] = useState<AppState>(initialState);
+  const [state, setState] = useState<AppState>(() => loadState());
 
   const setKey = (key: Note) => setState(prev => ({ ...prev, key }));
   const setScale = (scale: ScaleType) => setState(prev => ({ ...prev, scale }));
   const setOrientation = (orientation: Orientation) => setState(prev => ({ ...prev, orientation }));
   const toggleNoteNames = () => setState(prev => ({ ...prev, showNoteNames: !prev.showNoteNames }));
+
+  useEffect(() => {
+    saveState(state);
+  }, [state]);
 
   return (
     <div style={styles.container}>
