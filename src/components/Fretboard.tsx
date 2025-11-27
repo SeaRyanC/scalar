@@ -103,25 +103,39 @@ export function Fretboard({ rootNote, scale, orientation, showNoteNames }: Fretb
 
       if (doubleMarkerFrets.includes(fret)) {
         // Double markers for octave fret
-        const offset = isHorizontal 
-          ? (stringSpacing * 1) 
-          : (stringSpacing * 1);
+        const offset = stringSpacing;
         
-        g.append('circle')
-          .attr('cx', isHorizontal ? markerX : markerY - offset)
-          .attr('cy', isHorizontal ? markerY - offset : markerX)
-          .attr('r', 6)
-          .attr('fill', '#ddd');
-        
-        g.append('circle')
-          .attr('cx', isHorizontal ? markerX : markerY + offset)
-          .attr('cy', isHorizontal ? markerY + offset : markerX)
-          .attr('r', 6)
-          .attr('fill', '#ddd');
+        if (isHorizontal) {
+          // Offset vertically (along cy) for horizontal orientation
+          g.append('circle')
+            .attr('cx', markerX)
+            .attr('cy', markerY - offset)
+            .attr('r', 6)
+            .attr('fill', '#ddd');
+          
+          g.append('circle')
+            .attr('cx', markerX)
+            .attr('cy', markerY + offset)
+            .attr('r', 6)
+            .attr('fill', '#ddd');
+        } else {
+          // Offset horizontally (along cx) for vertical orientation
+          g.append('circle')
+            .attr('cx', markerX - offset)
+            .attr('cy', markerY)
+            .attr('r', 6)
+            .attr('fill', '#ddd');
+          
+          g.append('circle')
+            .attr('cx', markerX + offset)
+            .attr('cy', markerY)
+            .attr('r', 6)
+            .attr('fill', '#ddd');
+        }
       } else {
         g.append('circle')
-          .attr('cx', isHorizontal ? markerX : markerY)
-          .attr('cy', isHorizontal ? markerY : markerX)
+          .attr('cx', markerX)
+          .attr('cy', markerY)
           .attr('r', 6)
           .attr('fill', '#ddd');
       }
